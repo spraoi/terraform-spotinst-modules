@@ -6,3 +6,4 @@ variable "access_type" {
   description = "ro | full"
   default     = "ro"
 }
+

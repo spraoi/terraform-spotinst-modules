@@ -5,9 +5,9 @@ resource "kubernetes_config_map" "configmap" {
   }
 
   data = {
-    "spotinst.token"              = "${var.spotinst_token}"
-    "spotinst.account"            = "${var.spotinst_account}"
-    "spotinst.cluster-identifier" = "${var.spotinst_cluster_identifier}"
+    "spotinst.token"              = var.spotinst_token
+    "spotinst.account"            = var.spotinst_account
+    "spotinst.cluster-identifier" = var.spotinst_cluster_identifier
   }
 }
 
@@ -161,7 +161,7 @@ resource "kubernetes_deployment" "default" {
 
           volume_mount {
             mount_path = "/var/run/secrets/kubernetes.io/serviceaccount"
-            name       = "${kubernetes_service_account.default.default_secret_name}"
+            name       = kubernetes_service_account.default.default_secret_name
             read_only  = true
           }
 
@@ -218,10 +218,10 @@ resource "kubernetes_deployment" "default" {
         }
 
         volume {
-          name = "${kubernetes_service_account.default.default_secret_name}"
+          name = kubernetes_service_account.default.default_secret_name
 
           secret {
-            secret_name = "${kubernetes_service_account.default.default_secret_name}"
+            secret_name = kubernetes_service_account.default.default_secret_name
           }
         }
 
@@ -234,3 +234,4 @@ resource "kubernetes_deployment" "default" {
 data "external" "version" {
   program = ["curl", "https://spotinst-public.s3.amazonaws.com/integrations/kubernetes/cluster-controller/latest.json"]
 }
+

@@ -17,35 +17,37 @@ resource "aws_iam_role" "spotinst_eco_role" {
           ]
 }
 EOF
+
 }
 
 resource "aws_iam_policy" "spotinst_eco_policy" {
   name        = "spotinst-eco-policy"
   path        = "/"
   description = "Spotinst Eco Policy"
-  policy      = "${data.aws_iam_policy_document.spotinst_eco_policy_read.json}"
+  policy      = data.aws_iam_policy_document.spotinst_eco_policy_read.json
 }
 
 resource "aws_iam_policy_attachment" "spotinst_eco_policy_attachment" {
   name       = "spotinst-eco-policy-attachment"
-  roles      = ["${aws_iam_role.spotinst_eco_role.name}"]
-  policy_arn = "${aws_iam_policy.spotinst_eco_policy.arn}"
+  roles      = [aws_iam_role.spotinst_eco_role.name]
+  policy_arn = aws_iam_policy.spotinst_eco_policy.arn
 }
 
 resource "aws_iam_policy_attachment" "spotinst_eco_billing_attachment" {
   name       = "spotinst-eco-policy-attachment"
-  roles      = ["${aws_iam_role.spotinst_eco_role.name}"]
+  roles      = [aws_iam_role.spotinst_eco_role.name]
   policy_arn = "arn:aws:iam::aws:policy/job-function/Billing"
 }
 
 resource "aws_iam_policy_attachment" "spotinst_eco_cloudformation_read_attachment" {
   name       = "spotinst-eco-policy-attachment"
-  roles      = ["${aws_iam_role.spotinst_eco_role.name}"]
+  roles      = [aws_iam_role.spotinst_eco_role.name]
   policy_arn = "arn:aws:iam::aws:policy/AWSCloudFormationReadOnlyAccess"
 }
 
 resource "aws_iam_policy_attachment" "spotinst_eco_ec2_read_attachment" {
   name       = "spotinst-eco-policy-attachment"
-  roles      = ["${aws_iam_role.spotinst_eco_role.name}"]
+  roles      = [aws_iam_role.spotinst_eco_role.name]
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ReadOnlyAccess"
 }
+

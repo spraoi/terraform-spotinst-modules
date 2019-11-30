@@ -63,3 +63,4 @@ data "aws_iam_policy_document" "spotinst_eco_policy_read" {
     ]
   }
 }
+

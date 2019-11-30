@@ -80,3 +80,4 @@ variable "cnvrg_storage_bucket_name" {
 variable "cnvrg_storage_bucket_region" {
   default = "default_cnvrg_storage_bucket_region"
 }
+

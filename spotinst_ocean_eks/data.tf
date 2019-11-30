@@ -12,3 +12,4 @@ data "aws_iam_policy_document" "workers_assume_role_policy" {
     }
   }
 }
+

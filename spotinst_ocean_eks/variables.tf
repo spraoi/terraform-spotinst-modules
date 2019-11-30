@@ -44,3 +44,4 @@ variable "spotinst_account" {
   description = "The Spotinst account ID used by the controller."
   default     = ""
 }
+
