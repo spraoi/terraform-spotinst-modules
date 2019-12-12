@@ -1,4 +1,6 @@
 resource "kubernetes_config_map" "configmap" {
+  count = var.enabled == "true" ? 1 : 0
+
   metadata {
     name      = "spotinst-kubernetes-cluster-controller-config"
     namespace = "kube-system"
@@ -12,6 +14,8 @@ resource "kubernetes_config_map" "configmap" {
 }
 
 resource "kubernetes_secret" "default" {
+  count = var.enabled == "true" ? 1 : 0
+
   metadata {
     name      = "spotinst-kubernetes-cluster-controller-certs"
     namespace = "kube-system"
@@ -25,6 +29,8 @@ resource "kubernetes_secret" "default" {
 }
 
 resource "kubernetes_service_account" "default" {
+  count = var.enabled == "true" ? 1 : 0
+
   metadata {
     name      = "spotinst-kubernetes-cluster-controller"
     namespace = "kube-system"
@@ -38,6 +44,8 @@ resource "kubernetes_service_account" "default" {
 }
 
 resource "kubernetes_cluster_role" "default" {
+  count = var.enabled == "true" ? 1 : 0
+
   metadata {
     name = "spotinst-kubernetes-cluster-controller"
   }
@@ -163,6 +171,8 @@ resource "kubernetes_cluster_role" "default" {
 }
 
 resource "kubernetes_cluster_role_binding" "default" {
+  count = var.enabled == "true" ? 1 : 0
+
   metadata {
     name = "spotinst-kubernetes-cluster-controller"
   }
@@ -182,6 +192,8 @@ resource "kubernetes_cluster_role_binding" "default" {
 }
 
 resource "kubernetes_deployment" "default" {
+  count = var.enabled == "true" ? 1 : 0
+
   metadata {
     name      = "spotinst-kubernetes-cluster-controller"
     namespace = "kube-system"
@@ -221,7 +233,7 @@ resource "kubernetes_deployment" "default" {
 
           volume_mount {
             mount_path = "/var/run/secrets/kubernetes.io/serviceaccount"
-            name       = kubernetes_service_account.default.default_secret_name
+            name       = kubernetes_service_account.default[0].default_secret_name
             read_only  = true
           }
 
@@ -311,10 +323,10 @@ resource "kubernetes_deployment" "default" {
         }
 
         volume {
-          name = kubernetes_service_account.default.default_secret_name
+          name = kubernetes_service_account.default[0].default_secret_name
 
           secret {
-            secret_name = kubernetes_service_account.default.default_secret_name
+            secret_name = kubernetes_service_account.default[0].default_secret_name
           }
         }
 
